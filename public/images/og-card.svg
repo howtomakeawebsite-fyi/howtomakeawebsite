@@ -3,7 +3,7 @@
   <circle cx="1010" cy="250" r="150" fill="#e8b765"/>
   <path d="M560 630V470c110-80 230-90 350-30 70 34 120 40 180 24l110-30v196z" fill="#8b6b3e"/>
   <path d="M1200 630V430c-130-60-270-50-400 30-100 62-210 70-420 50v120z" fill="#3b2a18"/>
-  <text x="80" y="250" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="700" fill="#3b2a18">Hope Valley Church</text>
+  <text x="80" y="250" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="700" fill="#3b2a18">Your Church Name</text>
   <text x="80" y="330" font-family="Arial, Helvetica, sans-serif" font-size="44" fill="#6b5638">(sample)</text>
   <text x="80" y="420" font-family="Arial, Helvetica, sans-serif" font-size="36" fill="#6b5638">Sundays at 10:00 am</text>
 </svg>

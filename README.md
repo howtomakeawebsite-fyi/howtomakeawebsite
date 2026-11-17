@@ -2,7 +2,7 @@
 
 A simple, good-looking church website that you can copy and make your own.
 
-Everything you see on it is a **sample**: "Hope Valley Church (sample)", "Sample Pastor", "123 Sample Street" and so on. You replace the samples with your own church's details. You do not need to know how to code.
+Everything you see on it is a **sample**: "Your Church Name", "Sample Pastor", "123 Sample Street" and so on. You replace the samples with your own church's details. You do not need to know how to code.
 
 ## What you get
 

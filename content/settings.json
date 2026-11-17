@@ -1,13 +1,13 @@
 {
-  "name": "Hope Valley Church (sample)",
-  "shortName": "Hope Valley",
+  "name": "Your Church Name",
+  "shortName": "Your Church",
   "tagline": "A friendly sample church. Everything on this website is made up, so you can replace it with your own.",
-  "description": "Hope Valley Church (sample) is a made-up church used to show the Church Starter website. Replace this text with one or two sentences about your own church.",
+  "description": "Your Church Name is a made-up church used to show the Church Starter website. Replace this text with one or two sentences about your own church.",
   "url": "https://howtomakeawebsite.fyi",
   "email": "office@howtomakeawebsite.fyi",
   "phone": "000 000 0000",
   "address": {
-    "venueName": "Hope Valley Church (sample)",
+    "venueName": "Your Church Name",
     "street": "123 Sample Street",
     "town": "Sample Town",
     "postcode": "0000",
@@ -24,7 +24,7 @@
   },
   "giving": {
     "bank": "Sample Bank",
-    "accountName": "HOPE VALLEY CHURCH (SAMPLE)",
+    "accountName": "YOUR CHURCH NAME (SAMPLE)",
     "accountNumber": "00-0000-0000000-00",
     "reference": "Your name, or the word Offering"
   },
