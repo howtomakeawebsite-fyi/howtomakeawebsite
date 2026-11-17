@@ -1,0 +1,155 @@
+# Pages CMS settings (https://pagescms.org).
+# This file tells Pages CMS which parts of the website you can edit in your browser.
+# You do not need to change it. If you add a new kind of content later, add it here.
+
+media:
+  input: public/uploads
+  output: /uploads
+
+content:
+  - name: settings
+    label: Church settings
+    type: file
+    path: content/settings.json
+    format: json
+    fields:
+      - { name: name, label: Church name, type: string, required: true }
+      - { name: shortName, label: Short name, type: string, description: "Used under the app icon on phones and as the sender name of form emails." }
+      - { name: tagline, label: Tagline, type: text }
+      - { name: description, label: Description, type: text, description: "One or two sentences about your church. Search engines show this." }
+      - { name: url, label: Website address, type: string, description: "Your own domain, starting with https://" }
+      - { name: email, label: Email address, type: string }
+      - { name: phone, label: Phone number, type: string }
+      - name: address
+        label: Address
+        type: object
+        fields:
+          - { name: venueName, label: Building or venue name, type: string }
+          - { name: street, label: Street address, type: string }
+          - { name: town, label: Town or city, type: string }
+          - { name: postcode, label: Postcode, type: string }
+          - { name: country, label: Country, type: string }
+          - { name: mapSearch, label: Map search words, type: string, description: "What you would type into Google Maps to find your church. Leave empty to show no map." }
+      - name: service
+        label: Service time
+        type: object
+        fields:
+          - { name: label, label: Service time as shown on the site, type: string, description: "For example: Sundays at 10:00 am" }
+          - name: day
+            label: Day
+            type: select
+            options:
+              values: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+          - { name: hour, label: "Start hour (0 to 23)", type: number }
+          - { name: minute, label: "Start minute (0 to 59)", type: number }
+          - { name: durationMinutes, label: Length in minutes, type: number }
+          - { name: timeZone, label: Time zone, type: string, description: "For example Pacific/Auckland, Europe/London or America/Chicago." }
+      - name: giving
+        label: Giving (bank details)
+        type: object
+        fields:
+          - { name: bank, label: Bank, type: string }
+          - { name: accountName, label: Account name, type: string }
+          - { name: accountNumber, label: Account number, type: string }
+          - { name: reference, label: Reference to use, type: string }
+      - name: youtube
+        label: YouTube
+        type: object
+        fields:
+          - { name: channelId, label: YouTube channel ID, type: string, description: "Starts with UC and is 24 characters long. Leave empty to show the sample." }
+          - { name: channelUrl, label: Link to your channel, type: string }
+      - name: calendar
+        label: Events calendar
+        type: object
+        fields:
+          - { name: icsUrl, label: Calendar link, type: string, description: "Your calendar's public iCal (.ics) address. Leave empty to show sample events." }
+      - name: social
+        label: Social media links
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Name, type: string }
+          - { name: href, label: Link, type: string }
+
+  - name: home
+    label: Home page
+    type: file
+    path: content/home.json
+    format: json
+    fields:
+      - name: hero
+        label: Top banner
+        type: object
+        fields:
+          - { name: eyebrow, label: Small heading, type: string }
+          - { name: title, label: Main heading, type: string }
+          - { name: text, label: Text, type: text }
+          - { name: buttonLabel, label: Button words, type: string }
+          - { name: buttonLink, label: Button link, type: string }
+      - name: welcome
+        label: Welcome text
+        type: object
+        fields:
+          - { name: title, label: Heading, type: string }
+          - { name: text, label: Text, type: text }
+      - name: verse
+        label: Bible verse
+        type: object
+        fields:
+          - { name: text, label: Verse, type: text }
+          - { name: reference, label: Reference, type: string }
+      - name: cards
+        label: Three cards
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Heading, type: string }
+          - { name: text, label: Text, type: text }
+          - { name: link, label: Link, type: string }
+          - name: icon
+            label: Icon
+            type: select
+            options:
+              values: [map, users, heart, book, calendar, clock, gift, mail, phone, play, coffee, child, home]
+
+  - name: team
+    label: Team
+    type: file
+    path: content/team.json
+    format: json
+    fields:
+      - name: people
+        label: People
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Name, type: string }
+          - { name: role, label: Role, type: string }
+          - { name: bio, label: About this person, type: text }
+          - { name: photo, label: Photo, type: image, description: "Optional. A square photo works best. Only use photos you have permission to publish." }
+
+  - name: pages
+    label: Pages
+    type: collection
+    path: content/pages
+    format: yaml-frontmatter
+    filename: "{primary}.mdx"
+    view:
+      fields: [title]
+      primary: title
+    fields:
+      - { name: title, label: Page title, type: string, required: true }
+      - { name: seoTitle, label: Title for search engines, type: string, description: "Under 60 characters." }
+      - { name: description, label: Description for search engines, type: text, description: "120 to 160 characters." }
+      - { name: keywords, label: Search phrases, type: string, list: true }
+      - name: section
+        label: Show in search engines?
+        type: select
+        options:
+          values: [main, hidden]
+      # The page text. Lines such as <ContactForm /> are ready-made blocks: leave them exactly as they are.
+      - name: body
+        label: Page text
+        type: code
+        options:
+          format: mdx

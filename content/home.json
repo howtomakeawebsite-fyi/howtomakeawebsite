@@ -1,0 +1,22 @@
+{
+  "hero": {
+    "eyebrow": "Welcome",
+    "title": "Welcome to Hope Valley Church (sample)",
+    "text": "This is a sample church website. Come as you are, bring the family, and stay for a cup of tea afterwards.",
+    "buttonLabel": "Plan your visit",
+    "buttonLink": "/plan-your-visit/"
+  },
+  "welcome": {
+    "title": "You are welcome here",
+    "text": "Edit me: write two or three friendly sentences for someone who has never been to your church. Tell them what a Sunday is like, and that they do not need to dress up or know anyone. You can change this text on the Home page in Pages CMS (the file is content/home.json)."
+  },
+  "verse": {
+    "text": "Edit me: put a favourite Bible verse here, copied word for word from the translation your church uses.",
+    "reference": "Book 0:00 (your translation)"
+  },
+  "cards": [
+    { "title": "New here?", "text": "Find out when and where we meet and what to expect.", "link": "/plan-your-visit/", "icon": "map" },
+    { "title": "Who we are", "text": "Read our story, what we believe and meet our leaders.", "link": "/about/", "icon": "users" },
+    { "title": "Need prayer?", "text": "Send us a prayer request. We would be glad to pray for you.", "link": "/prayer/", "icon": "heart" }
+  ]
+}

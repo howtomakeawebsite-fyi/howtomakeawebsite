@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5a4127"/>
+      <stop offset="0.45" stop-color="#b98a4e"/>
+      <stop offset="0.8" stop-color="#ecd2a4"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.62" r="0.45">
+      <stop offset="0" stop-color="#fff3d6" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#fff3d6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <circle cx="800" cy="560" r="110" fill="#fff3d6"/>
+  <path d="M0 620c180-90 360-110 560-40 160 56 300 50 440-10 200-86 400-80 600 20v310H0z" fill="#8b6b3e"/>
+  <path d="M0 700c220-80 420-70 620 0 150 52 280 44 420-16 190-80 370-70 560 10v206H0z" fill="#6f5430"/>
+  <path d="M0 790c260-70 520-60 760 6 160 44 300 40 440-4 140-44 270-46 400-14v122H0z" fill="#3b2a18"/>
+  <g fill="#faf6ee">
+    <path d="M1120 690l44-40 44 40v54h-88z"/>
+    <rect x="1158" y="596" width="12" height="60"/>
+    <rect x="1144" y="612" width="40" height="10"/>
+  </g>
+  <rect x="1154" y="712" width="20" height="32" fill="#3b2a18"/>
+</svg>

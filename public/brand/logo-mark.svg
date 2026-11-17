@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Sample church logo: sun rising over two hills">
+  <rect width="512" height="512" rx="112" fill="#3b2a18"/>
+  <circle cx="256" cy="250" r="92" fill="#e8b765"/>
+  <path d="M0 512V352c70-64 150-74 232-22 44 28 76 34 110 22v160z" fill="#8b6b3e"/>
+  <path d="M512 512V330c-80-50-170-40-250 30-60 52-130 60-262 40v112z" fill="#faf6ee"/>
+</svg>

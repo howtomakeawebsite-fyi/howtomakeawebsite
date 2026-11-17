@@ -1,0 +1,7 @@
+{
+  "people": [
+    { "name": "Sample Pastor", "role": "Lead Pastor", "bio": "Edit me: one or two sentences about your pastor. This person is made up.", "photo": "" },
+    { "name": "Sample Person", "role": "Church Administrator", "bio": "Edit me: one or two sentences about this team member. This person is made up.", "photo": "" },
+    { "name": "Sample Person", "role": "Children's Ministry Leader", "bio": "Edit me: one or two sentences about this team member. This person is made up.", "photo": "" }
+  ]
+}
