@@ -24,9 +24,9 @@ async function LatestSermon() {
     <div className="relative overflow-hidden rounded-3xl bg-deep-oak text-cream">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/images/sermon-placeholder.svg" alt="" width={1280} height={720} className="aspect-video w-full object-cover opacity-60" />
-      <div className="absolute inset-0 grid place-items-center p-6 text-center">
+      {/* The picture already has a play button in the middle, so the words sit underneath it. */}
+      <div className="absolute inset-0 flex items-end justify-center p-6 pb-8 text-center">
         <div>
-          <Icon name="play" className="mx-auto h-10 w-10" />
           {state === "unset" ? (
             <>
               <p className="mt-3 font-display text-2xl">Your latest sermon will show here</p>
