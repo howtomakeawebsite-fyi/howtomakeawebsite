@@ -11,12 +11,17 @@ Everything you see on it is a **sample**: "Your Church Name", "Sample Pastor", "
 | Home | `/` | Welcome, service time, "Plan your visit" button, latest sermon, upcoming events, a verse |
 | About | `/about/` | Who we are, what we believe, leadership |
 | Plan Your Visit | `/plan-your-visit/` | Times, address, map, what to expect |
-| Sermons | `/sermons/` | Your YouTube videos (a friendly sample until you add your channel ID) |
+| Sermons | `/sermons/` | Your YouTube videos with a series filter, a countdown to the next service and the live stream when you are live (a friendly sample until you add your channel ID) |
+| Podcast | `/podcast/` | Spotify and Apple Podcasts players and the latest episodes (set them in Church settings, Podcast) |
+| FAQ | `/faq/` | Questions and answers, with the structured data Google and AI assistants read |
+| Get our app | `/get-our-app/` | How to save the site to a phone's home screen, with an Install button where the phone offers it |
+| Notifications | `/notifications/` | Turn notifications on and choose topics (needs the notification settings below) |
 | Events | `/events/` | Events from your calendar (sample events until you add your calendar link) |
 | Give | `/give/` | Bank details with a Copy button |
 | Contact | `/contact/` | Phone, email, contact form |
 | Prayer | `/prayer/` | Prayer request form |
 | Privacy Policy | `/privacy-policy/` | Generic sample wording marked "Edit me" |
+| Send a notification | `/notifications-admin/` | Private page for leaders, protected by a password. Not in any menu or search engine |
 | Page not found | any wrong address | A friendly 404 page |
 
 Also built in:
@@ -28,6 +33,10 @@ Also built in:
 - **Search engine basics**: a sitemap, `robots.txt`, `llms.txt` for AI assistants, and structured data that tells Google this is a church.
 - **Installable app**: visitors can save the site to their phone like an app.
 - **Site search**, an "Add to calendar" button, and a redirects file (`redirects.ts`) with an example.
+- **Phone notifications**: a bell at the top of every page and an invitation on the home page, once the notification settings are added.
+- **"Live now" banner** at the top of every page while your YouTube channel is live.
+- **IndexNow**: a key file in `public/` and `npm run indexnow`, to tell Bing straight away that pages have changed.
+- **Share this page** button with your own hashtags (Church settings, Share hashtags).
 
 ## How to copy it
 
@@ -63,6 +72,8 @@ Tips:
 | Church details | `content/settings.json` |
 | Home page words | `content/home.json` |
 | Team | `content/team.json` |
+| FAQ | `content/faq.json` |
+| Sermon extras (series, speaker, topics, notes or hide, per video) | `content/sermons.json` |
 | Pages | `content/pages/*.mdx` (the file name is the page address: `about.mdx` is `/about/`) |
 | Menu | `src/config/site.ts` |
 | Colours | the lines starting with `--brand-` at the top of `src/app/globals.css` |
@@ -84,6 +95,10 @@ Tips:
 | `<YouTube id="..." title="..." />` | One YouTube video |
 | `<Scripture reference="..." version="..." text="..." />` | A Bible verse |
 | `<EditMe title="...">...</EditMe>` | A dashed "sample text" reminder box |
+| `<PodcastPlayers />` | The Spotify and Apple Podcasts players side by side |
+| `<PodcastEpisodes />` | The latest podcast episodes, each with a play button |
+| `<AppSetupSteps />` | The three steps to save the app and turn on notifications |
+| `<NotificationsButton />` | The Turn on notifications box |
 
 ## Settings to add where your site is hosted (environment variables)
 
@@ -102,6 +117,14 @@ These are private settings. They are **not** stored in the files. You add them i
 | `YOUTUBE_API_KEY` | A YouTube Data API key, for exact video dates. The Sermons page works without it. | Optional |
 | `GOOGLE_SITE_VERIFICATION` | The code Google Search Console gives you to prove the site is yours. | Optional |
 | `BING_SITE_VERIFICATION` | The same, for Bing Webmaster Tools. | Optional |
+| `KV_REST_API_URL` | Upstash Redis address. Vercel adds it when you connect Upstash for Redis from the Storage tab. | For notifications |
+| `KV_REST_API_TOKEN` | Upstash Redis key. Added by Vercel together with the one above. | For notifications |
+| `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | The public notification key. Make the pair once with `npm run vapid`. | For notifications |
+| `VAPID_PRIVATE_KEY` | The private notification key (mark it Sensitive). Never change the pair later. | For notifications |
+| `VAPID_SUBJECT` | `mailto:` and your church email, for example `mailto:office@yourchurch.example`. | For notifications |
+| `PUSH_ADMIN_PASSWORD` | Password for `/notifications-admin/` (mark it Sensitive, at least 8 characters). | For notifications |
+
+Until all six notification settings are added and the site is redeployed, the bell and the home page invitation stay hidden and the Notifications page says "Notifications are coming soon".
 
 Until the three form settings are added, the forms still show, and a visitor who presses Send sees: "Form email is not set up yet". Nothing breaks.
 
@@ -124,12 +147,14 @@ Then open `http://localhost:3000`. Other commands:
 | `npm run start` | Shows the built site. |
 | `npm run check` | Checks the settings files, page titles and descriptions, and that colours are easy to read. |
 | `npm run icons` | Remakes the app icons and share picture after you change the logo. |
+| `npm run vapid` | Makes the notification key pair (once only). |
+| `npm run indexnow` | Tells Bing about every page in your sitemap. Add page addresses to send only those: `npm run indexnow -- /faq/`. Makes a key file first if there is none. |
+| `npm run indexnow:key` | Shows your IndexNow key and the address to paste into your browser to send your home page by hand. |
 
 ## Add-ons covered later
 
 To keep this starter simple, these are left out. They are covered later in the course:
 
-- Notifications to phones (push notifications)
 - Announcements
 - Daily devotionals
 - Translations into other languages
@@ -137,8 +162,6 @@ To keep this starter simple, these are left out. They are covered later in the c
 - Questionnaires and sign-up forms with limited places
 - Google Forms on the site
 - A blog
-- Podcast players
-- Live stream banner and countdown
 - A question-and-answer helper
 - Scheduled jobs (tasks that run by themselves at set times)
 
