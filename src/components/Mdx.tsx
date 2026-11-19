@@ -8,6 +8,8 @@ import { BankDetails } from "./BankDetails";
 import { ContactForm } from "./ContactForm";
 import { PrayerForm } from "./PrayerForm";
 import { EventsCalendar } from "./EventsCalendar";
+import { AppSetupSteps } from "./AppSetup";
+import { NotificationsButton } from "./PushNotifications";
 import { PodcastPlayers, SpotifyPlayer, ApplePodcastsPlayer, PodcastEpisodes } from "./Podcast";
 import { ServiceInfo, MapEmbed, EditMe, YouTube, Scripture, TeamGrid, ContactDetails } from "./ContentBlocks";
 
@@ -62,6 +64,8 @@ export const mdxComponents = {
   SpotifyPlayer,
   ApplePodcastsPlayer,
   PodcastEpisodes,
+  AppSetupSteps,
+  NotificationsButton,
 };
 
 export async function Mdx({ source }: { source: string }) {

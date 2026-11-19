@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { Icon } from "./Icon";
 
 /**
@@ -29,7 +29,14 @@ export function PwaSupport() {
   return null;
 }
 
-export function InstallAppButton({ className = "btn btn-ghost" }: { className?: string }) {
+/** True when the site is open as an installed app (from the home screen icon). */
+const isStandalone = () => window.matchMedia("(display-mode: standalone)").matches || Boolean((navigator as Navigator & { standalone?: boolean }).standalone);
+const noSubscribe = () => () => {};
+export function useInstalled() {
+  return useSyncExternalStore(noSubscribe, isStandalone, () => false);
+}
+
+export function InstallAppButton({ className = "btn btn-ghost", label = "Install app" }: { className?: string; label?: string }) {
   const [ready, setReady] = useState(false);
   useEffect(() => {
     const update = () => setReady(Boolean(saved));
@@ -40,7 +47,7 @@ export function InstallAppButton({ className = "btn btn-ghost" }: { className?: 
   if (!ready) return null;
   return (
     <button type="button" className={className} onClick={async () => { const e = saved; if (!e) return; await e.prompt(); await e.userChoice.catch(() => null); saved = null; setReady(false); }}>
-      <Icon name="smartphone" className="h-4 w-4" /> Install app
+      <Icon name="smartphone" className="h-4 w-4" /> {label}
     </button>
   );
 }
