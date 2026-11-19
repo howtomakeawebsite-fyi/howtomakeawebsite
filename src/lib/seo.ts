@@ -13,6 +13,20 @@ const startTime = `${pad(site.service.hour)}:${pad(site.service.minute)}`;
 const endMinutes = site.service.hour * 60 + site.service.minute + site.service.durationMinutes;
 const endTime = `${pad(Math.floor(endMinutes / 60) % 24)}:${pad(endMinutes % 60)}`;
 
+/**
+ * The date of the next service ("2027-03-14"), worked out in the church's own time zone.
+ * Google needs a start date on every event, also on a weekly one; the weekly pattern itself is in eventSchedule.
+ */
+function nextServiceDate(): string {
+  const parts = new Intl.DateTimeFormat("en-CA", { timeZone: site.service.timeZone, year: "numeric", month: "2-digit", day: "2-digit", weekday: "short" })
+    .formatToParts(new Date())
+    .reduce<Record<string, string>>((o, x) => ((o[x.type] = x.value), o), {});
+  const today = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(parts.weekday);
+  const d = new Date(Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day)));
+  d.setUTCDate(d.getUTCDate() + ((site.service.day - today + 7) % 7));
+  return d.toISOString().slice(0, 10);
+}
+
 /** IDs that link the structured data together (Google and AI assistants read this as one "knowledge graph"). */
 export const ids = {
   church: `${site.url}/#church`,
@@ -53,6 +67,10 @@ export function churchJsonLd() {
         event: {
           "@type": "Event",
           name: `${site.service.dayName} service at ${site.name}`,
+          description: `Our ${site.service.dayName} service, every week at ${startTime}. Everyone is welcome.`,
+          startDate: nextServiceDate(),
+          eventStatus: "https://schema.org/EventScheduled",
+          image: abs("/opengraph-image.png"),
           eventSchedule: { "@type": "Schedule", repeatFrequency: "P1W", byDay: day, startTime: `${startTime}:00`, endTime: `${endTime}:00`, scheduleTimezone: site.service.timeZone },
           eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
           location: { "@id": ids.place },
