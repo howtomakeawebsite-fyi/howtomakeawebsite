@@ -63,6 +63,15 @@ content:
         type: object
         fields:
           - { name: icsUrl, label: Calendar link, type: string, description: "Your calendar's public iCal (.ics) address. Leave empty to show sample events." }
+      - name: podcast
+        label: Podcast
+        type: object
+        description: "Shown on the Podcast page. Leave a box empty until you have it: the page shows a friendly note instead."
+        fields:
+          - { name: name, label: Show name, type: string, description: "Used in the headings on the Podcast page." }
+          - { name: spotifyShowId, label: Spotify show ID, type: string, description: "The code after /show/ in your show's address on open.spotify.com. Pasting the whole address also works." }
+          - { name: applePodcastsUrl, label: Apple Podcasts address, type: string, description: "Your show's address on podcasts.apple.com. It ends in id and a number." }
+          - { name: rssFeedUrl, label: RSS feed address (optional), type: string, description: "From your podcast host. Leave empty and the latest episodes are found from the Apple Podcasts address." }
       - name: social
         label: Social media links
         type: object

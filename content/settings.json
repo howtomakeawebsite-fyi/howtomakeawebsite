@@ -35,6 +35,12 @@
   "calendar": {
     "icsUrl": ""
   },
+  "podcast": {
+    "name": "",
+    "spotifyShowId": "",
+    "applePodcastsUrl": "",
+    "rssFeedUrl": ""
+  },
   "social": [
     { "name": "Facebook", "href": "https://www.facebook.com/" },
     { "name": "YouTube", "href": "https://www.youtube.com/" },

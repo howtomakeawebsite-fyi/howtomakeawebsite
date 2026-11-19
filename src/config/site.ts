@@ -67,6 +67,17 @@ export const site = {
 
   calendar: { icsUrl: (settings.calendar.icsUrl ?? "").trim() },
 
+  /** The Podcast page (content/pages/podcast.mdx). Each empty value shows a friendly note instead of a player. */
+  podcast: {
+    name: (settings.podcast?.name ?? "").trim() || `${settings.name} podcast`,
+    /** The code after /show/ in the show's open.spotify.com address (a full address works too). */
+    spotifyShowId: (settings.podcast?.spotifyShowId ?? "").trim().replace(/^.*\/show\//, "").replace(/[?#].*$/, ""),
+    /** The show's address on podcasts.apple.com (it ends in id and a number). */
+    appleUrl: (settings.podcast?.applePodcastsUrl ?? "").trim(),
+    /** Optional: the RSS feed from your podcast host. Empty means it is found from the Apple Podcasts address. */
+    rssUrl: (settings.podcast?.rssFeedUrl ?? "").trim(),
+  },
+
   social: settings.social.filter((s) => s.name && s.href),
 
   /** Search phrases people might use to find your church. Used in page metadata and llms.txt. */

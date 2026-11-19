@@ -11,10 +11,10 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:", // includes YouTube video thumbnails
   "font-src 'self' data:",
-  "media-src 'self' blob:",
+  "media-src 'self' blob: https:", // podcast episodes play from the podcast host
   "connect-src 'self' https://challenges.cloudflare.com",
-  // Frames: YouTube player, Google Maps, Turnstile
-  "frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com https://maps.google.com https://www.google.com https://challenges.cloudflare.com",
+  // Frames: YouTube player, Spotify and Apple Podcasts players, Google Maps, Turnstile
+  "frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com https://open.spotify.com https://embed.podcasts.apple.com https://maps.google.com https://www.google.com https://challenges.cloudflare.com",
   "worker-src 'self'",
   "manifest-src 'self'",
   "object-src 'none'",

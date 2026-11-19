@@ -8,6 +8,7 @@ import { BankDetails } from "./BankDetails";
 import { ContactForm } from "./ContactForm";
 import { PrayerForm } from "./PrayerForm";
 import { EventsCalendar } from "./EventsCalendar";
+import { PodcastPlayers, SpotifyPlayer, ApplePodcastsPlayer, PodcastEpisodes } from "./Podcast";
 import { ServiceInfo, MapEmbed, EditMe, YouTube, Scripture, TeamGrid, ContactDetails } from "./ContentBlocks";
 
 function Img({ src = "", alt = "", title }: ComponentProps<"img">) {
@@ -57,6 +58,10 @@ export const mdxComponents = {
   Scripture,
   TeamGrid,
   ContactDetails,
+  PodcastPlayers,
+  SpotifyPlayer,
+  ApplePodcastsPlayer,
+  PodcastEpisodes,
 };
 
 export async function Mdx({ source }: { source: string }) {
