@@ -5,6 +5,7 @@ import { VideoLibrary } from "@/components/VideoLibrary";
 import { pageMetadata, ids, breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
 import { Icon } from "@/components/Icon";
+import { LiveOrCountdown } from "@/components/Live";
 
 export const metadata = pageMetadata({
   title: "Sermons",
@@ -13,7 +14,12 @@ export const metadata = pageMetadata({
   keywords: ["sermons online", "church videos", "Bible teaching"],
 });
 
-const SAMPLE = ["Sample sermon: Hope for today", "Sample sermon: A fresh start", "Sample sermon: Loving your neighbour", "Sample sermon: Finding rest"];
+const SAMPLE = [
+  "Sample series - Part 4 - Hope for today (Psalm 23)",
+  "Sample series - Part 3 - A fresh start (2 Corinthians 5:17)",
+  "Sample series - Part 2 - Loving your neighbour (Luke 10:25-37)",
+  "Sample series - Part 1 - Finding rest (Matthew 11:28-30)",
+];
 
 /** Shown until a YouTube channel ID is added in the church settings. */
 function SampleState() {
@@ -29,6 +35,7 @@ function SampleState() {
           <li>Copy the <b>Channel ID</b>. It starts with the letters <code>UC</code> and is 24 characters long.</li>
           <li>Paste it into the church settings (&ldquo;YouTube channel ID&rdquo;) and save.</li>
         </ol>
+        <p className="mt-4 max-w-2xl text-muted">Give your videos titles in this pattern and the page sorts them by series and speaker by itself: <code>Series name - Part 3 - Sermon title (Bible passage) by Speaker Name</code></p>
       </div>
       <p className="mt-10 text-sm font-semibold text-muted">This is how your videos will look (these are samples, not real videos):</p>
       <ul className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -37,7 +44,7 @@ function SampleState() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/images/sermon-placeholder.svg" alt="" width={1280} height={720} loading="lazy" className="aspect-video w-full rounded-2xl object-cover" />
             <p className="mt-2 font-semibold leading-snug">{title}</p>
-            <p className="text-sm text-muted">Sample Pastor</p>
+            <p className="text-sm text-muted">Sample series · Sample Pastor</p>
           </li>
         ))}
       </ul>
@@ -86,6 +93,9 @@ export default function SermonsPage() {
     <>
       <JsonLd data={breadcrumbJsonLd([{ name: "Sermons", path: "/sermons/" }])} />
       <PageHero title="Sermons" intro="Catch up on recent messages." crumbs={[{ label: "Sermons", href: "/sermons/" }]} />
+      <section className="mx-auto max-w-7xl px-4 pt-12 sm:px-6" aria-label="Next service">
+        <LiveOrCountdown />
+      </section>
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
         <Suspense fallback={<div className="h-96 animate-pulse rounded-3xl bg-panel" />}>
           <Library />

@@ -1,5 +1,6 @@
 import { cacheLife } from "next/cache";
 import { site } from "@/config/site";
+import extras from "../../content/sermons.json";
 
 export type Video = {
   id: string;
@@ -8,13 +9,48 @@ export type Video = {
   publishedLabel?: string;
   description: string;
   thumbnail: string;
+  /** Read from the title ("Series name - Part 3 - ..."), or set in content/sermons.json. */
+  series?: string;
+  /** Read from the end of the title ("... by Speaker Name"), or set in content/sermons.json. */
+  speaker?: string;
+  topics: string[];
+  /** Link to the sermon notes (a PDF or a page), from content/sermons.json. */
+  notes?: string;
 };
+
+/**
+ * Sermon extras (content/sermons.json, "Sermon extras" in Pages CMS): optional details for one video,
+ * listed by its YouTube video ID (the code after watch?v=). Use it when a title does not follow the pattern,
+ * to add topics or a sermon-notes button, or to hide a video.
+ */
+type Extra = { id?: string; series?: string; speaker?: string; topics?: string[]; notes?: string; hide?: boolean };
+const extraFor = new Map<string, Extra>(
+  ((extras as { videos?: Extra[] }).videos ?? []).filter((x) => x.id?.trim()).map((x) => [x.id!.trim(), x]),
+);
+const filled = (s?: string) => (s && s.trim() ? s.trim() : undefined);
+
+/** Only titles written in CAPITAL LETTERS are changed to normal capitals. */
+const tidy = (s: string) =>
+  s === s.toUpperCase()
+    ? s.toLowerCase().replace(/([a-z])/g, (c) => c.toUpperCase()).replace(/(Of|The|And|In|On|To|A|An|For)/g, (w, _m, i) => (i === 0 ? w : w.toLowerCase()))
+    : s;
+
+/**
+ * Reads the series and the speaker from a title written in the pattern
+ *   Series name - Part 3 - Sermon title (Bible passage) by Speaker Name
+ * "Part" may also be "Study", "Session", "Episode" or "Week". The speaker is two to four words after the last "by".
+ */
+export function fromTitle(title: string): { series?: string; speaker?: string } {
+  const speaker = title.match(/^.*by\s+([A-Za-z][A-Za-z.'-]*(?:\s+[A-Za-z][A-Za-z.'-]*){1,3})\s*$/i)?.[1]?.trim();
+  const series = title.match(/^(.+?)\s*[-:|\u2013]\s*(?:study|part|session|episode|week)\s*\d+/i)?.[1]?.trim();
+  return { series: series ? tidy(series) : undefined, speaker: speaker ? tidy(speaker) : undefined };
+}
 
 function decode(s: string) {
   return s.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
 }
 
-type RawVideo = Omit<Video, "thumbnail">;
+type RawVideo = Pick<Video, "id" | "title" | "published" | "publishedLabel" | "description">;
 
 const UA = { "Accept-Language": "en", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140 Safari/537.36", Cookie: "CONSENT=YES+1" };
 
@@ -85,8 +121,21 @@ export async function getVideos(): Promise<{ videos: Video[]; state: "ok" | "uns
     if (!raw.length) raw = await fromChannelPage(channelId);
     const seen = new Set<string>();
     const videos = raw
-      .filter((v) => v.id && !seen.has(v.id) && seen.add(v.id))
-      .map((v): Video => ({ ...v, title: decode(v.title), thumbnail: `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg` }));
+      .filter((v) => v.id && !seen.has(v.id) && seen.add(v.id) && !extraFor.get(v.id)?.hide)
+      .map((v): Video => {
+        const title = decode(v.title);
+        const auto = fromTitle(title);
+        const x = extraFor.get(v.id) ?? {};
+        return {
+          ...v,
+          title,
+          thumbnail: `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`,
+          series: filled(x.series) ?? auto.series,
+          speaker: filled(x.speaker) ?? auto.speaker,
+          topics: (x.topics ?? []).map((t) => t.trim()).filter(Boolean),
+          notes: filled(x.notes),
+        };
+      });
     return { videos, state: videos.length ? "ok" : "error" };
   } catch {
     return { videos: [], state: "error" };
@@ -95,3 +144,27 @@ export async function getVideos(): Promise<{ videos: Video[]; state: "ok" | "uns
 
 /** Where the "Visit our YouTube channel" buttons go. */
 export const channelUrl = site.youtube.url || (site.youtube.channelId ? `https://www.youtube.com/channel/${site.youtube.channelId}` : "");
+
+/**
+ * Is the channel live right now? Checked about once a minute, from the channel's public "live" page (no key needed).
+ * Without a channel ID in the settings it always answers "not live", so the "Live now" banner never shows.
+ */
+export async function getLiveStatus(): Promise<{ live: boolean; videoId: string | null; title: string | null }> {
+  "use cache";
+  cacheLife({ stale: 30, revalidate: 60, expire: 300 });
+  const off = { live: false, videoId: null, title: null };
+  const channelId = site.youtube.channelId;
+  if (!/^UC[\w-]{22}$/.test(channelId)) return off;
+  try {
+    const res = await fetch(`https://www.youtube.com/channel/${channelId}/live`, { headers: UA });
+    if (!res.ok) return off;
+    const html = await res.text();
+    const live = /"isLiveNow":true/.test(html) || (/"isLive":true/.test(html) && !/"isUpcoming":true/.test(html));
+    if (!live) return off;
+    const videoId = html.match(/"videoId":"([\w-]{11})"/)?.[1] ?? null;
+    const title = html.match(/<meta name="title" content="([^"]*)"/)?.[1] ?? null;
+    return { live: true, videoId, title: title ? decode(title) : null };
+  } catch {
+    return off;
+  }
+}

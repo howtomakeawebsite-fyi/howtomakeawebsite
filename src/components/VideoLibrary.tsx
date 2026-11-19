@@ -7,29 +7,58 @@ import { Icon } from "./Icon";
 
 function date(iso: string, label?: string) {
   if (label) return label;
-  return new Date(iso).toLocaleDateString("en", { day: "numeric", month: "short", year: "numeric" });
+  return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 }
 
-/** Sermon video library: a big player for the chosen video, a search box, and a grid of all videos. */
+type Filter = { kind: "series" | "speaker" | "topic"; value: string } | null;
+
+/**
+ * Sermon video library: a big player for the chosen video, a search box, a series filter and a grid of all videos.
+ * The series and speaker are read from each video's title (see fromTitle in src/lib/youtube.ts) or set in content/sermons.json.
+ */
 export function VideoLibrary({ videos }: { videos: Video[] }) {
   const [current, setCurrent] = useState<Video>(videos[0]);
   const [q, setQ] = useState("");
+  const [filter, setFilter] = useState<Filter>(null);
+
+  const chips = useMemo(() => {
+    const list = (kind: "series" | "topic", values: string[]) => [...new Set(values)].map((value) => ({ kind, value }));
+    return [
+      ...list("series", videos.flatMap((v) => (v.series ? [v.series] : []))),
+      ...list("topic", videos.flatMap((v) => v.topics)),
+    ];
+  }, [videos]);
+  const speakers = useMemo(() => [...new Set(videos.flatMap((v) => (v.speaker ? [v.speaker] : [])))], [videos]);
+
   const shown = useMemo(() => {
     const words = q.toLowerCase().split(/\s+/).filter(Boolean);
-    return words.length ? videos.filter((v) => words.every((w) => `${v.title} ${v.description}`.toLowerCase().includes(w))) : videos;
-  }, [q, videos]);
+    return videos.filter((v) => {
+      if (filter?.kind === "series" && v.series !== filter.value) return false;
+      if (filter?.kind === "speaker" && v.speaker !== filter.value) return false;
+      if (filter?.kind === "topic" && !v.topics.includes(filter.value)) return false;
+      const text = `${v.title} ${v.description} ${v.series ?? ""} ${v.speaker ?? ""} ${v.topics.join(" ")}`.toLowerCase();
+      return words.every((w) => text.includes(w));
+    });
+  }, [q, filter, videos]);
 
   const play = (v: Video) => {
     setCurrent(v);
     document.getElementById("player")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+  const isOn = (kind: string, value: string) => filter?.kind === kind && filter.value === value;
+  const chip = (on: boolean) => `rounded-full px-4 py-1.5 text-sm font-semibold ${on ? "bg-accent text-on-accent" : "bg-panel hover:bg-panel-strong"}`;
 
   return (
     <div>
       <div id="player" className="scroll-mt-24">
         <LiteYouTube key={current.id} id={current.id} title={current.title} />
         <h2 className="mt-4 font-display text-2xl font-semibold">{current.title}</h2>
-        <p className="text-sm text-muted">{date(current.published, current.publishedLabel)}</p>
+        <p className="text-sm text-muted">{[date(current.published, current.publishedLabel), current.series, current.speaker].filter(Boolean).join(" · ")}</p>
+        {current.notes && (
+          <a href={current.notes} className="btn btn-primary mt-4" {...(/^https?:|\.pdf($|\?)/i.test(current.notes) ? { target: "_blank", rel: "noopener" } : {})}>
+            <Icon name="download" className="h-4 w-4" /> Sermon notes
+          </a>
+        )}
       </div>
 
       <div className="relative mt-10" role="search">
@@ -37,6 +66,26 @@ export function VideoLibrary({ videos }: { videos: Video[] }) {
         <Icon name="search" className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted" />
         <input id="video-search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search sermons" className="h-12 w-full rounded-full border border-line bg-bg pl-12 pr-4 outline-none focus:border-accent" />
       </div>
+
+      {(chips.length > 0 || speakers.length > 1) && (
+        <div className="mt-4 flex flex-wrap items-center gap-2" role="group" aria-label="Filter by series">
+          <button type="button" onClick={() => setFilter(null)} aria-pressed={!filter} className={chip(!filter)}>All</button>
+          {chips.map((c) => (
+            <button key={c.kind + c.value} type="button" onClick={() => setFilter(c)} aria-pressed={isOn(c.kind, c.value)} className={chip(isOn(c.kind, c.value))}>
+              {c.value}
+            </button>
+          ))}
+          {speakers.length > 1 && (
+            <label className="ml-auto flex items-center gap-2 text-sm">
+              <span className="font-semibold">Speaker</span>
+              <select value={filter?.kind === "speaker" ? filter.value : ""} onChange={(e) => setFilter(e.target.value ? { kind: "speaker", value: e.target.value } : null)} className="rounded-full border border-line bg-bg px-3 py-1.5">
+                <option value="">Everyone</option>
+                {speakers.map((s) => <option key={s} value={s}>{s}</option>)}
+              </select>
+            </label>
+          )}
+        </div>
+      )}
       <p className="mt-3 text-sm text-muted" aria-live="polite">{shown.length} video{shown.length === 1 ? "" : "s"}</p>
 
       <ul className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -51,7 +100,7 @@ export function VideoLibrary({ videos }: { videos: Video[] }) {
                 </span>
               </div>
               <p className="mt-2 line-clamp-2 font-semibold leading-snug">{v.title}</p>
-              <p className="text-sm text-muted">{date(v.published, v.publishedLabel)}</p>
+              <p className="text-sm text-muted">{[date(v.published, v.publishedLabel), v.speaker].filter(Boolean).join(" · ")}</p>
             </button>
           </li>
         ))}

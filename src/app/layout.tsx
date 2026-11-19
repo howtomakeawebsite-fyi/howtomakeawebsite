@@ -9,6 +9,7 @@ import { Footer } from "@/components/Footer";
 import { TabBar } from "@/components/TabBar";
 import { RevealObserver } from "@/components/Motion";
 import { PwaSupport } from "@/components/Pwa";
+import { LiveBanner } from "@/components/Live";
 import { themeScript } from "@/components/ThemeToggle";
 import { churchJsonLd, allowIndexing } from "@/lib/seo";
 
@@ -71,6 +72,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-dvh antialiased">
         <a href="#main" className="skip-link">Skip to content</a>
+        {/* "Live now" banner: only while your YouTube channel is live (needs the channel ID in the church settings). */}
+        <LiveBanner />
         <Header />
         <ViewTransition name="page">
           <main id="main">{children}</main>

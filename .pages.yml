@@ -137,6 +137,25 @@ content:
           - { name: bio, label: About this person, type: text }
           - { name: photo, label: Photo, type: image, description: "Optional. A square photo works best. Only use photos you have permission to publish." }
 
+  - name: sermons
+    label: Sermon extras
+    type: file
+    path: content/sermons.json
+    format: json
+    fields:
+      - name: videos
+        label: Videos
+        type: object
+        list: true
+        description: "Optional. Sermons appear by themselves from YouTube. Add a video here only to fix its series or speaker, add topics or a sermon notes button, or hide it."
+        fields:
+          - { name: id, label: YouTube video ID, type: string, required: true, description: "The code after watch?v= in the video's address, for example dQw4w9WgXcQ" }
+          - { name: series, label: Series, type: string, description: "Leave empty to read it from the title." }
+          - { name: speaker, label: Speaker, type: string, description: "Leave empty to read it from the title." }
+          - { name: topics, label: Topics, type: string, list: true }
+          - { name: notes, label: Sermon notes link, type: string, description: "A page on this site or a PDF, for example /uploads/notes-week-3.pdf" }
+          - { name: hide, label: Hide this video, type: boolean }
+
   - name: faq
     label: FAQ
     type: file
