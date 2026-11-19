@@ -80,6 +80,9 @@ export const site = {
 
   social: settings.social.filter((s) => s.name && s.href),
 
+  /** Hashtags added when people share a page (without the # sign). */
+  hashtags: (settings.shareHashtags ?? []).map((h: string) => h.replace(/^#/, "").replace(/\s+/g, "")).filter(Boolean),
+
   /** Search phrases people might use to find your church. Used in page metadata and llms.txt. */
   keywords: [settings.name, `church in ${a.town}`, "Sunday service", "Christian church"],
 };

@@ -5,6 +5,7 @@ import { Mdx } from "@/components/Mdx";
 import { PageHero } from "@/components/PageHero";
 import { pageMetadata, breadcrumbJsonLd, webPageJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
+import { ShareButton } from "@/components/Share";
 
 /** Every file in content/pages becomes a page here: about.mdx is shown at /about/. */
 
@@ -47,6 +48,11 @@ async function ContentPageBody({ params }: { params: Promise<{ slug: string }> }
         <article className="prose-church min-w-0 flow-root">
           <Mdx source={page.body} />
         </article>
+        {page.section !== "hidden" && (
+          <div className="mt-12 border-t border-line pt-6">
+            <ShareButton path={path} title={page.seoTitle ?? page.title} />
+          </div>
+        )}
       </div>
     </>
   );

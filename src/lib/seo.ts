@@ -144,6 +144,7 @@ export function pageMetadata({ title, description, path, keywords }: { title: st
     keywords: [...(keywords ?? []), ...site.keywords],
     alternates: { canonical: path },
     openGraph: { title, description: desc, url: path, type: "website", siteName: site.name, locale: site.locale, images: [{ url: image, alt: title }] },
-    twitter: { card: "summary_large_image", title, description: desc, images: [image] },
+    // The picture for X (Twitter) is src/app/twitter-image.png. Replace it with your own (1200 by 630 pixels), same name.
+    twitter: { card: "summary_large_image", title, description: desc, images: [abs("/twitter-image.png")] },
   };
 }

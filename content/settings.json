@@ -41,6 +41,7 @@
     "applePodcastsUrl": "",
     "rssFeedUrl": ""
   },
+  "shareHashtags": ["YourChurchName", "SampleTown", "SundayService", "Church"],
   "social": [
     { "name": "Facebook", "href": "https://www.facebook.com/" },
     { "name": "YouTube", "href": "https://www.youtube.com/" },

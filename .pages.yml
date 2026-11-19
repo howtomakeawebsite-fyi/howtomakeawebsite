@@ -72,6 +72,7 @@ content:
           - { name: spotifyShowId, label: Spotify show ID, type: string, description: "The code after /show/ in your show's address on open.spotify.com. Pasting the whole address also works." }
           - { name: applePodcastsUrl, label: Apple Podcasts address, type: string, description: "Your show's address on podcasts.apple.com. It ends in id and a number." }
           - { name: rssFeedUrl, label: RSS feed address (optional), type: string, description: "From your podcast host. Leave empty and the latest episodes are found from the Apple Podcasts address." }
+      - { name: shareHashtags, label: Share hashtags, type: string, list: true, description: "Four to six hashtags, without the # sign, the same ones you use on every platform. Added when people share a page with the Share button." }
       - name: social
         label: Social media links
         type: object
