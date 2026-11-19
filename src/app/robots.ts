@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { site } from "@/config/site";
 import { allowIndexing } from "@/lib/seo";
 
-const disallow = ["/api/", "/search/"];
+const disallow = ["/api/", "/search/", "/notifications-admin/"];
 
 // Search engines and AI assistants are all welcome: a church wants to be easy to find.
 const aiCrawlers = [

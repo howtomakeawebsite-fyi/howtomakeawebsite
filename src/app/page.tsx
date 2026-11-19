@@ -6,6 +6,7 @@ import { Icon } from "@/components/Icon";
 import { LiteYouTube } from "@/components/LiteYouTube";
 import { EventsCalendar } from "@/components/EventsCalendar";
 import { site } from "@/config/site";
+import { NotifyStrip } from "@/components/NotifyStrip";
 
 /** Home page. The words come from content/home.json; the church details from content/settings.json. */
 
@@ -92,6 +93,9 @@ export default function Home() {
           ))}
         </ul>
       </section>
+
+      {/* Invitation to turn on notifications (only once notifications are set up, and not on a device that has them on) */}
+      <NotifyStrip />
 
       {/* Latest sermon */}
       <section className="bg-panel">

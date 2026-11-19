@@ -8,6 +8,7 @@ import { mainNav, site } from "@/config/site";
 import { Icon } from "./Icon";
 import { ThemeToggle } from "./ThemeToggle";
 import { SearchButton } from "./Search";
+import { notificationsReady } from "./PushNotifications";
 
 function Logo() {
   return (
@@ -57,6 +58,10 @@ export function Header() {
         </nav>
         <div className="ml-auto flex shrink-0 items-center gap-1">
           <SearchButton />
+          {/* The bell opens the Notifications page. It shows once the notification keys are set in Vercel. */}
+          {notificationsReady && (
+            <Link href="/notifications/" className="grid h-10 w-10 place-items-center rounded-full hover:bg-panel" aria-label="Notifications" title="Notifications"><Icon name="bell" /></Link>
+          )}
           <ThemeToggle />
           <button type="button" className="grid h-10 w-10 place-items-center rounded-full hover:bg-panel xl:hidden" aria-label="Open menu" aria-expanded={menuOpen} onClick={() => setMenuOpen(true)}>
             <Icon name="menu" />
@@ -81,6 +86,8 @@ export function Header() {
               </Link>
             ))}
             <Link href="/search/" className="mt-2 flex items-center gap-2 rounded-xl px-3 py-3 text-lg font-semibold hover:bg-panel" tabIndex={menuOpen ? 0 : -1}><Icon name="search" className="h-5 w-5" /> Search</Link>
+            {notificationsReady && <Link href="/notifications/" className="flex items-center gap-2 rounded-xl px-3 py-3 text-lg font-semibold hover:bg-panel" tabIndex={menuOpen ? 0 : -1}><Icon name="bell" className="h-5 w-5" /> Notifications</Link>}
+            <Link href="/get-our-app/" className="flex items-center gap-2 rounded-xl px-3 py-3 text-lg font-semibold hover:bg-panel" tabIndex={menuOpen ? 0 : -1}><Icon name="smartphone" className="h-5 w-5" /> Get our app</Link>
           </nav>
         </div>
       </div>

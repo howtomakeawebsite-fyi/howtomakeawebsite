@@ -8,22 +8,26 @@
     "start": "next start",
     "lint": "eslint",
     "check": "node scripts/check-content.mjs",
-    "icons": "node scripts/make-icons.mjs"
+    "icons": "node scripts/make-icons.mjs",
+    "vapid": "web-push generate-vapid-keys"
   },
   "dependencies": {
     "@mdx-js/mdx": "^3.1.1",
+    "@upstash/redis": "^1.41.0",
     "fuse.js": "^7.5.0",
     "gray-matter": "^4.0.3",
     "next": "16.4.6",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "web-push": "^4.0.0"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "4.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/web-push": "^3.6.4",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
     "prettier": "^3.9.10",
