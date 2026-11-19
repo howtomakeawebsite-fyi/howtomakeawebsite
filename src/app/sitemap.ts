@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const fixed: MetadataRoute.Sitemap = [
     { url: `${site.url}/`, lastModified: modified("home.json"), changeFrequency: "weekly", priority: 1 },
     { url: `${site.url}/sermons/`, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${site.url}/faq/`, lastModified: modified("faq.json"), changeFrequency: "monthly", priority: 0.8 },
   ];
   const important = new Set(["plan-your-visit", "about", "contact", "events"]);
   const pages: MetadataRoute.Sitemap = getPages()

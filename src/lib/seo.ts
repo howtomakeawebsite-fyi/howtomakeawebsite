@@ -125,6 +125,15 @@ export function webPageJsonLd({ title, description, path, type = "WebPage" }: { 
   };
 }
 
+/** Questions and answers in the format Google and AI assistants read (the FAQ page). */
+export function faqJsonLd(items: { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((it) => ({ "@type": "Question", name: it.q, acceptedAnswer: { "@type": "Answer", text: it.a } })),
+  };
+}
+
 /** Title, description and social preview for one page. */
 export function pageMetadata({ title, description, path, keywords }: { title: string; description?: string; path: string; keywords?: string[] }): Metadata {
   const desc = description ?? site.description;

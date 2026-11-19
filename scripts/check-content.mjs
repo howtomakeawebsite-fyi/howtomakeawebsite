@@ -15,7 +15,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 let problems = 0;
 
 console.log("Settings files:");
-for (const f of ["settings.json", "home.json", "team.json"]) {
+for (const f of ["settings.json", "home.json", "team.json", "faq.json"]) {
   try {
     JSON.parse(fs.readFileSync(path.join(ROOT, "content", f), "utf8"));
     console.log(`pass  content/${f}`);

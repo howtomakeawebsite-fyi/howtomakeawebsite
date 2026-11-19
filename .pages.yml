@@ -128,6 +128,29 @@ content:
           - { name: bio, label: About this person, type: text }
           - { name: photo, label: Photo, type: image, description: "Optional. A square photo works best. Only use photos you have permission to publish." }
 
+  - name: faq
+    label: FAQ
+    type: file
+    path: content/faq.json
+    format: json
+    fields:
+      - { name: intro, label: Text under the page title, type: text }
+      - name: groups
+        label: Question groups
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Group heading, type: string, description: "For example: Visiting on a Sunday" }
+          - name: items
+            label: Questions
+            type: object
+            list: true
+            fields:
+              - { name: q, label: Question, type: string, description: "Write it the way a visitor would ask it, with your church name in it." }
+              - { name: a, label: Answer, type: text, description: "Full sentences that include your church name. Google and AI assistants quote these answers." }
+              - { name: linkLabel, label: Button words (optional), type: string, description: "For example: Plan your visit" }
+              - { name: linkHref, label: Button link (optional), type: string, description: "A page on this site, for example /plan-your-visit/" }
+
   - name: pages
     label: Pages
     type: collection

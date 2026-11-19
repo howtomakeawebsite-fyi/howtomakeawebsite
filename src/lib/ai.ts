@@ -1,5 +1,6 @@
 import { site, mainNav } from "@/config/site";
 import { getPages } from "@/lib/content";
+import { faqItems } from "@/lib/faq";
 
 /**
  * /llms.txt: a short, plain-text guide to the site for AI assistants (see llmstxt.org).
@@ -25,7 +26,9 @@ export function llmsTxt() {
     `- [Home](${site.url}/): welcome, service time, latest sermon and upcoming events`,
     ...pages.map((p) => `- [${p.title}](${site.url}/${p.slug}/): ${p.description ?? ""}`),
     `- [Sermons](${site.url}/sermons/): sermon videos from our YouTube channel`,
+    `- [FAQ](${site.url}/faq/): answers to common questions`,
     "",
+    ...(faqItems.length ? ["## Frequently asked questions", "", ...faqItems.flatMap((f) => [`### ${f.q}`, "", f.a, ""])] : []),
     "## Menu",
     "",
     ...mainNav.map((n) => `- ${n.label}: ${site.url}${n.href}`),

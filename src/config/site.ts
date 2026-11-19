@@ -105,5 +105,8 @@ export const footerLinks: NavItem[] = [
   { label: "Give", href: "/give/" },
   { label: "Prayer", href: "/prayer/" },
   { label: "Contact", href: "/contact/" },
+  { label: "FAQ", href: "/faq/" },
+  { label: "Podcast", href: "/podcast/" },
+  { label: "Get our app", href: "/get-our-app/" },
   { label: "Privacy Policy", href: "/privacy-policy/" },
 ];

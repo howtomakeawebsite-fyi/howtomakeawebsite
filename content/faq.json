@@ -1,0 +1,62 @@
+{
+  "intro": "Everything you might want to know before your first visit. Still have a question? Get in touch and we will gladly help.",
+  "groups": [
+    {
+      "title": "Visiting on a Sunday",
+      "items": [
+        {
+          "q": "What time is the Sunday service at Your Church Name?",
+          "a": "Your Church Name meets every Sunday at 10:00 am at 123 Sample Street, Sample Town. The service lasts about an hour and a half. Please arrive 10 minutes early so we can say hello.",
+          "linkLabel": "Plan your visit",
+          "linkHref": "/plan-your-visit/"
+        },
+        {
+          "q": "Where is Your Church Name?",
+          "a": "Your Church Name meets at 123 Sample Street, Sample Town. You will find a map and directions on our Plan Your Visit page.",
+          "linkLabel": "Plan your visit",
+          "linkHref": "/plan-your-visit/"
+        },
+        {
+          "q": "Is there parking at Your Church Name?",
+          "a": "Yes. There is free parking beside the building at 123 Sample Street.",
+          "linkLabel": "",
+          "linkHref": ""
+        },
+        {
+          "q": "Is there something for children at Your Church Name?",
+          "a": "Yes. Children's church runs during the Sunday service, led by a friendly team. Children are also always welcome to stay with their family.",
+          "linkLabel": "",
+          "linkHref": ""
+        },
+        {
+          "q": "What should I wear to Your Church Name?",
+          "a": "Come as you are. Most people at Your Church Name dress casually.",
+          "linkLabel": "",
+          "linkHref": ""
+        }
+      ]
+    },
+    {
+      "title": "About us",
+      "items": [
+        {
+          "q": "What does Your Church Name believe?",
+          "a": "Your Church Name is a Christian church. We believe in one God, Father, Son and Holy Spirit, and that the Bible is God's word. Replace this answer with two or three sentences about your own church's beliefs.",
+          "linkLabel": "About us",
+          "linkHref": "/about/"
+        }
+      ]
+    },
+    {
+      "title": "Online",
+      "items": [
+        {
+          "q": "Can I watch Your Church Name online?",
+          "a": "Yes. The sermons of Your Church Name are on our YouTube channel, and the latest ones are on our Sermons page.",
+          "linkLabel": "Watch sermons",
+          "linkHref": "/sermons/"
+        }
+      ]
+    }
+  ]
+}
