@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cacheLife } from "next/cache";
 import { site } from "@/config/site";
 
 /**
@@ -16,8 +17,11 @@ const endTime = `${pad(Math.floor(endMinutes / 60) % 24)}:${pad(endMinutes % 60)
 /**
  * The date of the next service ("2027-03-14"), worked out in the church's own time zone.
  * Google needs a start date on every event, also on a weekly one; the weekly pattern itself is in eventSchedule.
+ * Worked out in a cached step (refreshed daily), so every page can still be built ahead of time.
  */
-function nextServiceDate(): string {
+export async function nextServiceDate(): Promise<string> {
+  "use cache";
+  cacheLife("days");
   const parts = new Intl.DateTimeFormat("en-CA", { timeZone: site.service.timeZone, year: "numeric", month: "2-digit", day: "2-digit", weekday: "short" })
     .formatToParts(new Date())
     .reduce<Record<string, string>>((o, x) => ((o[x.type] = x.value), o), {});
@@ -35,7 +39,7 @@ export const ids = {
 };
 
 /** Site-wide structured data (JSON-LD): the church, where it meets, and the website with its search. */
-export function churchJsonLd() {
+export function churchJsonLd(startDate: string) {
   const address = {
     "@type": "PostalAddress",
     streetAddress: site.venue.street,
@@ -68,7 +72,7 @@ export function churchJsonLd() {
           "@type": "Event",
           name: `${site.service.dayName} service at ${site.name}`,
           description: `Our ${site.service.dayName} service, every week at ${startTime}. Everyone is welcome.`,
-          startDate: nextServiceDate(),
+          startDate,
           eventStatus: "https://schema.org/EventScheduled",
           image: abs("/opengraph-image.png"),
           eventSchedule: { "@type": "Schedule", repeatFrequency: "P1W", byDay: day, startTime: `${startTime}:00`, endTime: `${endTime}:00`, scheduleTimezone: site.service.timeZone },

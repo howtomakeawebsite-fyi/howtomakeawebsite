@@ -11,7 +11,7 @@ import { RevealObserver } from "@/components/Motion";
 import { PwaSupport } from "@/components/Pwa";
 import { LiveBanner } from "@/components/Live";
 import { themeScript } from "@/components/ThemeToggle";
-import { churchJsonLd, allowIndexing } from "@/lib/seo";
+import { churchJsonLd, allowIndexing, nextServiceDate } from "@/lib/seo";
 
 // Body text: Source Sans 3 (the font files are in src/fonts). Headings: Lato.
 const body = localFont({
@@ -62,12 +62,12 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${body.variable} ${heading.variable} no-js`} suppressHydrationWarning data-theme="light">
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(churchJsonLd()).replace(/</g, "\\u003c") }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(churchJsonLd(await nextServiceDate())).replace(/</g, "\\u003c") }} />
         <link rel="alternate" type="text/plain" title={`${site.name} summary for AI assistants`} href="/llms.txt" />
       </head>
       <body className="min-h-dvh antialiased">
